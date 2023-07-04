@@ -33,5 +33,6 @@ export const PayPalSdkConfig = {
     window.ps_checkoutHostedFieldsCustomizationConfiguration,
   payLaterOfferMessageCustomization: window.ps_checkoutPayLaterOfferMessageCustomization,
   payLaterOfferBannerCustomization: window.ps_checkoutPayLaterOfferBannerCustomization,
-  partnerAttributionId: window.ps_checkoutPartnerAttributionId
+  partnerAttributionId: window.ps_checkoutPartnerAttributionId,
+  customerDetails: window.ps_checkoutCustomerDetails
 };

@@ -978,6 +978,26 @@ class Ps_checkout extends PaymentModule
         }
         // END To be refactored in services
 
+        // @TODO : refactor getting customer details in a service
+        $cart = new \Cart((int) $this->context->cart->id);
+
+        $email = '';
+        if (!empty($cart->id_customer)) {
+            $customer = new \Customer($cart->id_customer);
+            $email = $customer->email;
+        }
+
+        $fullName = '';
+        if (!empty($cart->id_address_invoice)) {
+            $invoiceAddress = new \Address($cart->id_address_invoice);
+            $fullName = $invoiceAddress->firstname . ' ' . $invoiceAddress->lastname;
+        }
+
+        $customerDetails = [
+            'name' => $fullName,
+            'email' => $email
+        ];
+
         if ($frontControllerValidator->shouldGeneratePayPalClientToken($controller)
             && $payPalConfiguration->isHostedFieldsEnabled() && in_array($payPalConfiguration->getCardHostedFieldsStatus(), ['SUBSCRIBED', 'LIMITED'], true)
         ) {
@@ -1064,6 +1084,7 @@ class Ps_checkout extends PaymentModule
                 'error.paypal-sdk.contingency.failure' => $this->l('Card holder authentication failed, please choose another payment method or try again.'),
                 'error.paypal-sdk.contingency.unknown' => $this->l('Card holder authentication cannot be checked, please choose another payment method or try again.'),
             ],
+            $this->name . 'CustomerDetails' => $customerDetails,
         ]);
 
         if (method_exists($this->context->controller, 'registerJavascript')) {

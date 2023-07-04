@@ -370,7 +370,6 @@ export class PayPalService extends BaseClass {
    * @param {object} fields
    */
   getPaymentFields(fundingSource, fields = {}) {
-    console.log(this.sdk.PaymentFields);
     return this.sdk.PaymentFields && this.sdk.PaymentFields({
       fundingSource: fundingSource,
       style: this.getPaymentFieldsCustomizationStyle(fundingSource),

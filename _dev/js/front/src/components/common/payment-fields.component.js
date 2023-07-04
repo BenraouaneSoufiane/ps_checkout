@@ -29,13 +29,12 @@ import { BaseComponent } from '../../core/dependency-injection/base.component';
 
 export class PaymentFieldsComponent extends BaseComponent {
   static Inject = {
-    config: 'PsCheckoutConfig',
+    config: 'PayPalSdkConfig',
     payPalService: 'PayPalService'
   };
 
   created() {
     this.data.name = this.props.fundingSource.name;
-
     this.data.HTMLElement = this.props.HTMLElement;
   }
 
@@ -46,7 +45,14 @@ export class PaymentFieldsComponent extends BaseComponent {
     this.data.HTMLElement.setAttribute('data-funding-source', this.data.name);
 
     const paymentFields = this.payPalService
-      .getPaymentFields(this.data.name);
+      .getPaymentFields(this.data.name, {
+        name: {
+          value: this.config.customerDetails.name
+        },
+        email: {
+          value: this.config.customerDetails.email
+        }
+      });
 
     if (paymentFields) {
       paymentFields.render(containerSelector);
