@@ -148,10 +148,7 @@ export class SmartButtonComponent extends BaseComponent {
               isExpressCheckout: this.config.expressCheckout.active
             })
             .catch(error => {
-              this.data.loader.hide();
-              this.data.notification.showError(
-                `${error.message} ${error.name}`
-              );
+              throw error;
             });
         }
       })
@@ -161,15 +158,13 @@ export class SmartButtonComponent extends BaseComponent {
   handleError(error) {
     let errorMessage = error;
 
-    if (error instanceof Error) {
-      if (error.message) {
-        errorMessage = error.message;
+    if (error.message) {
+      errorMessage = error.message;
 
-        if (error.message.includes('CURRENCY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
-          errorMessage = 'Provided currency is not supported by the selected payment method.';
-        } else if (error.message.includes('COUNTRY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
-          errorMessage = 'Provided country is not supported by the selected payment method.';
-        }
+      if (error.message.includes('CURRENCY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
+        errorMessage = 'Provided currency is not supported by the selected payment method.';
+      } else if (error.message.includes('COUNTRY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
+        errorMessage = 'Provided country is not supported by the selected payment method.';
       }
     }
 

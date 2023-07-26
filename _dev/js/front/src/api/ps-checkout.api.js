@@ -113,9 +113,7 @@ export class PsCheckoutApi extends BaseClass {
         if (isJsonResponse) {
           if (false === response.ok) {
             return response.json().then((response) => {
-              throw response.body && response.body.error
-                ? response.body.error
-                : { message: 'Unknown error' };
+              this.throwError(response);
             });
           }
 
@@ -263,5 +261,23 @@ export class PsCheckoutApi extends BaseClass {
         throw new Error('Invalid response');
       })
     );
+  }
+
+  throwError(response) {
+    let error = 'Unknown error';
+
+    if (response.body) {
+      if (response.body.error) {
+        error = response.body.error;
+      }
+    } else if (response.exceptionMessage) {
+      let code = '';
+      if (typeof response.exceptionCode !== 'undefined') {
+        code = response.exceptionCode;
+      }
+      error = 'Error ' + code + ' : ' + response.exceptionMessage;
+    }
+
+    throw { message: error };
   }
 }
