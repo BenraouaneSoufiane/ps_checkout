@@ -32,7 +32,8 @@ export class SmartButtonComponent extends BaseComponent {
   static Inject = {
     config: 'PsCheckoutConfig',
     payPalService: 'PayPalService',
-    psCheckoutApi: 'PsCheckoutApi'
+    psCheckoutApi: 'PsCheckoutApi',
+    $: '$'
   };
 
   created() {
@@ -157,15 +158,16 @@ export class SmartButtonComponent extends BaseComponent {
 
   handleError(error) {
     let errorMessage = error;
-
     if (error.message) {
       errorMessage = error.message;
+    }
 
-      if (error.message.includes('CURRENCY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
-        errorMessage = 'Provided currency is not supported by the selected payment method.';
-      } else if (error.message.includes('COUNTRY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
-        errorMessage = 'Provided country is not supported by the selected payment method.';
-      }
+    if (errorMessage.includes('CURRENCY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
+      errorMessage = 'Provided currency is not supported by the selected payment method.';
+    } else if (errorMessage.includes('COUNTRY_NOT_SUPPORTED_BY_PAYMENT_SOURCE')) {
+      errorMessage = 'Provided country is not supported by the selected payment method.';
+    } else if (errorMessage.includes('cURL error 7')) {
+      errorMessage = this.$('checkout.form.error.label');
     }
 
     return errorMessage;
