@@ -21,6 +21,10 @@
 namespace PrestaShop\Module\PrestashopCheckout\Api;
 
 use Http\Client\Exception\RequestException;
+use PrestaShop\Module\PrestashopCheckout\Api\Exception\AuthenticationFailureException;
+use PrestaShop\Module\PrestashopCheckout\Api\Exception\InternalServerErrorException;
+use PrestaShop\Module\PrestashopCheckout\Api\Exception\InvalidRequestException;
+use PrestaShop\Module\PrestashopCheckout\Api\Exception\NotAuthorizedException;
 use PrestaShop\Module\PrestashopCheckout\Api\Exception\UnprocessableEntityException;
 use Psr\Http\Client\ClientInterface;
 
@@ -42,7 +46,14 @@ class PaymentService
     public function createOrder(array $payload)
     {
         try {
-            throw new UnprocessableEntityException();
+            // For unit testing purpose :
+
+            // throw new AuthenticationFailureException();
+            // throw new InternalServerErrorException();
+            // throw new InvalidRequestException();
+            // throw new NotAuthorizedException();
+            // throw new UnprocessableEntityException();
+
             $response = $this->httpClient->sendRequest();
         } catch (RequestException $exception) {
             // In case of BadRequestException, we can retrieve the response and the request
