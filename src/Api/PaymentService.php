@@ -49,7 +49,8 @@ class PaymentService
         try {
             $response = $this->httpClient->sendRequest(new Request('POST', 'https://api.prestashop.com'));
         } catch (RequestException $exception) {
-            switch ($exception->getMessage()) {
+            $responseBody = json_decode((string) $exception->getResponse()->getBody(), true);
+            switch ($responseBody['name']) {
                 case 'AUTHENTICATION_FAILURE':
                     throw new AuthenticationFailureException();
                 case 'INTERNAL_SERVER_ERROR':
