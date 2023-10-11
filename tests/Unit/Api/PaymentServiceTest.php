@@ -54,7 +54,7 @@ class CreateOrderPayloadBuilderTest extends TestCase
         );
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->method('sendRequest')->willThrowException(new HttpException(
-            'AUTHENTICATION_FAILURE',
+            json_decode($response->getBody()->getContents(), true)['name'],
             $request,
             $response
         ));
@@ -91,7 +91,7 @@ class CreateOrderPayloadBuilderTest extends TestCase
         );
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->method('sendRequest')->willThrowException(new HttpException(
-            'INTERNAL_SERVER_ERROR',
+            json_decode($response->getBody()->getContents(), true)['name'],
             $request,
             $response
         ));
@@ -136,7 +136,7 @@ class CreateOrderPayloadBuilderTest extends TestCase
         );
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->method('sendRequest')->willThrowException(new HttpException(
-            'INVALID_REQUEST',
+            json_decode($response->getBody()->getContents(), true)['name'],
             $request,
             $response
         ));
@@ -167,7 +167,7 @@ class CreateOrderPayloadBuilderTest extends TestCase
         );
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->method('sendRequest')->willThrowException(new HttpException(
-            'NOT_AUTHORIZED',
+            json_decode($response->getBody()->getContents(), true)['name'],
             $request,
             $response
         ));
@@ -210,7 +210,7 @@ class CreateOrderPayloadBuilderTest extends TestCase
         );
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->method('sendRequest')->willThrowException(new HttpException(
-            'UNPROCESSABLE_ENTITY',
+            json_decode($response->getBody()->getContents(), true)['name'],
             $request,
             $response
         ));

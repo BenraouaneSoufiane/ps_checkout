@@ -20,6 +20,7 @@
 
 namespace PrestaShop\Module\PrestashopCheckout\Api;
 
+use GuzzleHttp\Psr7\Request;
 use Http\Client\Exception\RequestException;
 use PrestaShop\Module\PrestashopCheckout\Api\Exception\AuthenticationFailureException;
 use PrestaShop\Module\PrestashopCheckout\Api\Exception\InternalServerErrorException;
@@ -46,19 +47,22 @@ class PaymentService
     public function createOrder(array $payload)
     {
         try {
-            // For unit testing purpose :
-
-            // throw new AuthenticationFailureException();
-            // throw new InternalServerErrorException();
-            // throw new InvalidRequestException();
-            // throw new NotAuthorizedException();
-            // throw new UnprocessableEntityException();
-
-            $response = $this->httpClient->sendRequest();
+            $response = $this->httpClient->sendRequest(new Request('POST', 'https://api.prestashop.com'));
         } catch (RequestException $exception) {
-            // In case of BadRequestException, we can retrieve the response and the request
-            // Depending on the response, we can throw a dedicated Exception (e.g. InvalidPayloadException etc...)
-            $exception->getResponse();
+            switch ($exception->getMessage()) {
+                case 'AUTHENTICATION_FAILURE':
+                    throw new AuthenticationFailureException();
+                case 'INTERNAL_SERVER_ERROR':
+                    throw new InternalServerErrorException();
+                case 'INVALID_REQUEST':
+                    throw new InvalidRequestException();
+                case 'NOT_AUTHORIZED':
+                    throw new NotAuthorizedException();
+                case 'UNPROCESSABLE_ENTITY':
+                    throw new UnprocessableEntityException();
+                default:
+                    throw $exception;
+            }
         }
     }
 }
