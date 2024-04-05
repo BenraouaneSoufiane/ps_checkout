@@ -21,14 +21,14 @@
 namespace PrestaShop\Module\PrestashopCheckout\Api\Payment;
 
 use Http\Client\Exception\HttpException;
-use PrestaShop\Module\PrestashopCheckout\DTO\Orders\CreatePayPalOrderRequestInterface;
-use PrestaShop\Module\PrestashopCheckout\DTO\Orders\UpdatePayPalOrderRequestInterface;
 use PrestaShop\Module\PrestashopCheckout\Exception\InvalidRequestException;
 use PrestaShop\Module\PrestashopCheckout\Exception\NotAuthorizedException;
 use PrestaShop\Module\PrestashopCheckout\Exception\PsCheckoutException;
 use PrestaShop\Module\PrestashopCheckout\Exception\UnprocessableEntityException;
 use PrestaShop\Module\PrestashopCheckout\Http\CheckoutHttpClient;
+use PrestaShop\Module\PrestashopCheckout\PayPal\Order\DTO\CreatePayPalOrderRequestInterface;
 use PrestaShop\Module\PrestashopCheckout\PayPal\Order\DTO\CreatePayPalOrderResponse;
+use PrestaShop\Module\PrestashopCheckout\PayPal\Order\DTO\UpdatePayPalOrderRequestInterface;
 use PrestaShop\Module\PrestashopCheckout\Serializer\ObjectSerializerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
